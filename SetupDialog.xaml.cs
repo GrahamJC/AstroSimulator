@@ -26,8 +26,6 @@ namespace AstroSimulator
             PreferencesGroup.DataContext = ((App)Application.Current).Preferences;
             SiteInformationGroup.DataContext = ((App)Application.Current).SiteInformation;
             TelescopeGroup.DataContext = ((App)Application.Current).Telescope;
-            CameraGroup.DataContext = ((App)Application.Current).Camera;
-            GuiderGroup.DataContext = ((App)Application.Current).Guider;
 
             // Add event handlers
             GSCPathBrowse.Click += new RoutedEventHandler(GSCPathBrowse_Click);
