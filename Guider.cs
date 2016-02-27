@@ -10,7 +10,7 @@ namespace AstroSimulator
     {
         // Construction
         public Guider()
-            : base(900, 659, 494, 7.4, 0)
+            : base(800, 1280, 960, 3.75, 0)
         {
         }
 

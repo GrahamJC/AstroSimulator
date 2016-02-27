@@ -10,7 +10,7 @@ namespace AstroSimulator
     {
         // Construction
         public Camera()
-            : base(900, 3362, 2504, 5.4, 0)
+            : base(800, 3362, 2504, 5.4, 0)
         {
         }
 

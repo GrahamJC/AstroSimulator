@@ -48,7 +48,7 @@
 
                     <TextBlock Grid.Row="4" Grid.Column="0" Margin="3" VerticalAlignment="Center">Pixel size</TextBlock>
                     <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
-                        <telerik:RadNumericUpDown Width="50" Margin="3" HorizontalAlignment="Left" NumberDecimalDigits="1" Minimum="0" Maximum="25" LargeChange="1" SmallChange="0.1" Value="{Binding Path=Camera.PixelSize}" />
+                        <telerik:RadNumericUpDown Width="50" Margin="3" HorizontalAlignment="Left" NumberDecimalDigits="2" Minimum="0" Maximum="25" LargeChange="1" SmallChange="0.1" Value="{Binding Path=Camera.PixelSize}" />
                         <TextBlock Margin="3" VerticalAlignment="Center">microns</TextBlock>
                     </StackPanel>
 
@@ -123,7 +123,7 @@
 
                     <TextBlock Grid.Row="4" Grid.Column="0" Margin="3" VerticalAlignment="Center">Pixel size</TextBlock>
                     <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
-                        <telerik:RadNumericUpDown Width="50" Margin="3" HorizontalAlignment="Left" NumberDecimalDigits="1" Minimum="0" Maximum="25" LargeChange="1" SmallChange="0.1" Value="{Binding Path=Guider.PixelSize}" />
+                        <telerik:RadNumericUpDown Width="50" Margin="3" HorizontalAlignment="Left" NumberDecimalDigits="2" Minimum="0" Maximum="25" LargeChange="1" SmallChange="0.1" Value="{Binding Path=Guider.PixelSize}" />
                         <TextBlock Margin="3" VerticalAlignment="Center">microns</TextBlock>
                     </StackPanel>
 
