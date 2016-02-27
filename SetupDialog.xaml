@@ -1,0 +1,227 @@
+﻿<Window x:Class="AstroSimulator.SetupDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Setup" Height="500" Width="660"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        xmlns:local="clr-namespace:AstroSimulator"
+        xmlns:ascom="clr-namespace:ASCOM.DeviceInterface;assembly=ASCOM.DeviceInterfaces"
+>
+    <Window.Resources>
+        <local:DegreesToDMSConverter x:Key="DMSConverter" />
+        <local:HoursToHMSConverter x:Key="HMSConverter" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical">
+            <GroupBox Name="PreferencesGroup" Margin="3" Padding="5" Header="Preferences">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="3" VerticalAlignment="Center">GSC directory</TextBlock>
+                    <DockPanel Grid.Row="0" Grid.Column="1">
+                        <Button Name="GSCPathBrowse" DockPanel.Dock="Right" HorizontalAlignment="Right" Width="25" Margin="3" Content="..." />
+                        <TextBox Margin="3" Text="{Binding Path=GSCPath}" />
+                    </DockPanel>
+                </Grid>
+            </GroupBox>
+            <GroupBox Name="SiteInformationGroup" Margin="3" Padding="5" Header="Site Information">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="3" VerticalAlignment="Center">Site latitude</TextBlock>
+                    <TextBox Grid.Row="0" Grid.Column="1" Width="80" Margin="3" HorizontalAlignment="Left" Text="{Binding Path=Latitude, Converter={StaticResource ResourceKey=DMSConverter}}" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="3" VerticalAlignment="Center">Site longitude</TextBlock>
+                    <TextBox Grid.Row="1" Grid.Column="1" Width="80" Margin="3" HorizontalAlignment="Left" Text="{Binding Path=Longitude, Converter={StaticResource ResourceKey=DMSConverter}}" />
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Margin="3" VerticalAlignment="Center">Site elevation</TextBlock>
+                    <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                        <telerik:RadNumericUpDown Width="50" Margin="3" HorizontalAlignment="Left" NumberDecimalDigits="0" Minimum="0" Maximum="2" LargeChange="100" SmallChange="10" Value="{Binding Path=Elevation}" />
+                        <TextBlock Margin="3" VerticalAlignment="Center">meters</TextBlock>
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Margin="3" VerticalAlignment="Center">Seeing</TextBlock>
+                    <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+                        <telerik:RadNumericUpDown Width="50" Margin="3" HorizontalAlignment="Left" NumberDecimalDigits="0" Minimum="0" Maximum="10" LargeChange="1" SmallChange="0.1" Value="{Binding Path=Seeing}" />
+                        <TextBlock Margin="3" VerticalAlignment="Center">arcsec</TextBlock>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Name="TelescopeGroup" Margin="3" Padding="5" Header="Telescope">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="3" VerticalAlignment="Center" Grid.ColumnSpan="2">Coordinate type</TextBlock>
+                    <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                        <RadioButton VerticalAlignment="Center" Margin="3" GroupName="CoordinateType" Content="JNow" IsChecked="{Binding Path=CoordinateType, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static ascom:EquatorialCoordinateType.equLocalTopocentric}}" />
+                        <RadioButton VerticalAlignment="Center" Margin="3" GroupName="CoordinateType" Content="J2000" IsChecked="{Binding Path=CoordinateType, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static ascom:EquatorialCoordinateType.equJ2000}}" />
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="3" VerticalAlignment="Center" Grid.ColumnSpan="2">Pointing error</TextBlock>
+                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                        <telerik:RadNumericUpDown Width="50" Margin="3" HorizontalAlignment="Left" NumberDecimalDigits="1" Minimum="0" Maximum="60" LargeChange="10" SmallChange="1" Value="{Binding Path=PointingError}" />
+                        <TextBlock Margin="3" VerticalAlignment="Center">arcmin</TextBlock>
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Margin="3" VerticalAlignment="Center" Grid.ColumnSpan="2">Guide rate</TextBlock>
+                    <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                        <telerik:RadNumericUpDown Width="50" Margin="3" HorizontalAlignment="Left" NumberDecimalDigits="0" Minimum="0" Maximum="100" LargeChange="10" SmallChange="1" Value="{Binding Path=GuideRate}" />
+                        <TextBlock Margin="3" VerticalAlignment="Center">% sidereal</TextBlock>
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Margin="3" VerticalAlignment="Center" Grid.ColumnSpan="2">Periodic error</TextBlock>
+                    <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+                        <telerik:RadNumericUpDown Width="50" Margin="3" HorizontalAlignment="Left" NumberDecimalDigits="1" Minimum="0" Maximum="100" LargeChange="1" SmallChange="0.1" Value="{Binding Path=PeridicError}" />
+                        <TextBlock Margin="3" VerticalAlignment="Center">arcsec (peak to peak)</TextBlock>
+                    </StackPanel>
+
+                    <GroupBox Name="TelescopePolarAlignment" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Margin="3" Padding="5" Header="Polar Alignment Error">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="85 " />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Margin="3" VerticalAlignment="Center" Grid.ColumnSpan="2">Altitude</TextBlock>
+                            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                                <telerik:RadNumericUpDown Width="50" Margin="3" HorizontalAlignment="Left" NumberDecimalDigits="1" Minimum="-60" Maximum="60" LargeChange="1" SmallChange="0.1" Value="{Binding Path=AlignmentErrorAltitude}" />
+                                <TextBlock Margin="3" VerticalAlignment="Center">arcmin (Up > 0)</TextBlock>
+                            </StackPanel>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Margin="3" VerticalAlignment="Center" Grid.ColumnSpan="2">Azimuth</TextBlock>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                                <telerik:RadNumericUpDown Width="50" Margin="3" HorizontalAlignment="Left" NumberDecimalDigits="1" Minimum="-60" Maximum="60" LargeChange="1" SmallChange="0.1" Value="{Binding Path=AlignmentErrorAzimuth}" />
+                                <TextBlock Margin="3" VerticalAlignment="Center">arcmin (East > 0)</TextBlock>
+                            </StackPanel>
+                        </Grid>
+                    </GroupBox>
+
+                </Grid>
+            </GroupBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical">
+            <GroupBox Name="CameraGroup" Margin="3" Padding="5" Header="Camera">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="3" VerticalAlignment="Center">Focal length</TextBlock>
+                    <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                        <telerik:RadNumericUpDown Width="50" Margin="3" HorizontalAlignment="Left" NumberDecimalDigits="0" Minimum="0" Maximum="5000" LargeChange="100" SmallChange="10" Value="{Binding Path=FocalLength}" />
+                        <TextBlock Margin="3" VerticalAlignment="Center">mm</TextBlock>
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="3" VerticalAlignment="Center">Pixels X</TextBlock>
+                    <telerik:RadNumericUpDown Grid.Row="1" Grid.Column="1" Width="50" Margin="3" HorizontalAlignment="Left" NumberDecimalDigits="0" Minimum="0" Maximum="5000" LargeChange="100" SmallChange="10" Value="{Binding Path=PixelsX}" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Margin="3" VerticalAlignment="Center">Pixels Y</TextBlock>
+                    <telerik:RadNumericUpDown Grid.Row="2" Grid.Column="1" Width="50" Margin="3" HorizontalAlignment="Left" NumberDecimalDigits="0" Minimum="0" Maximum="5000" LargeChange="100" SmallChange="10" Value="{Binding Path=PixelsY}" />
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Margin="3" VerticalAlignment="Center">Pixel size</TextBlock>
+                    <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+                        <telerik:RadNumericUpDown Width="50" Margin="3" HorizontalAlignment="Left" NumberDecimalDigits="1" Minimum="0" Maximum="25" LargeChange="1" SmallChange="0.1" Value="{Binding Path=PixelSize}" />
+                        <TextBlock Margin="3" VerticalAlignment="Center">microns</TextBlock>
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Margin="3" VerticalAlignment="Center">Rotation angle</TextBlock>
+                    <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
+                        <telerik:RadNumericUpDown Width="50" Margin="3" HorizontalAlignment="Left" NumberDecimalDigits="0" Minimum="0" Maximum="359" LargeChange="10" SmallChange="1" Value="{Binding Path=RotationAngle}" />
+                        <TextBlock Margin="3" VerticalAlignment="Center">degress (0-360)</TextBlock>
+                    </StackPanel>
+
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Name="GuiderGroup" Margin="3" Padding="5" Header="Guider">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="3" VerticalAlignment="Center">Focal length</TextBlock>
+                    <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                        <telerik:RadNumericUpDown Width="50" Margin="3" HorizontalAlignment="Left" NumberDecimalDigits="0" Minimum="0" Maximum="5000" LargeChange="100" SmallChange="10" Value="{Binding Path=FocalLength}" />
+                        <TextBlock Margin="3" VerticalAlignment="Center">mm</TextBlock>
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="3" VerticalAlignment="Center">Pixels X</TextBlock>
+                    <telerik:RadNumericUpDown Grid.Row="1" Grid.Column="1" Width="50" Margin="3" HorizontalAlignment="Left" NumberDecimalDigits="0" Minimum="0" Maximum="5000" LargeChange="100" SmallChange="10" Value="{Binding Path=PixelsX}" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Margin="3" VerticalAlignment="Center">Pixels Y</TextBlock>
+                    <telerik:RadNumericUpDown Grid.Row="2" Grid.Column="1" Width="50" Margin="3" HorizontalAlignment="Left" NumberDecimalDigits="0" Minimum="0" Maximum="5000" LargeChange="100" SmallChange="10" Value="{Binding Path=PixelsY}" />
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Margin="3" VerticalAlignment="Center">Pixel size</TextBlock>
+                    <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+                        <telerik:RadNumericUpDown Width="50" Margin="3" HorizontalAlignment="Left" NumberDecimalDigits="1" Minimum="0" Maximum="25" LargeChange="1" SmallChange="0.1" Value="{Binding Path=PixelSize}" />
+                        <TextBlock Margin="3" VerticalAlignment="Center">microns</TextBlock>
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Margin="3" VerticalAlignment="Center">Rotation angle</TextBlock>
+                    <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
+                        <telerik:RadNumericUpDown Width="50" Margin="3" HorizontalAlignment="Left" NumberDecimalDigits="0" Minimum="0" Maximum="359" LargeChange="10" SmallChange="1" Value="{Binding Path=RotationAngle}" />
+                        <TextBlock Margin="3" VerticalAlignment="Center">degress</TextBlock>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+        </StackPanel>
+
+        <Button Name="CloseDialog" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Width="80" Margin="5" Content="Close" />
+    </Grid>
+
+</Window>

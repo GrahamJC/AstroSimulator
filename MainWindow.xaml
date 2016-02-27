@@ -1,0 +1,133 @@
+﻿<Window x:Class="AstroSimulator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="AstroSimulator" Height="561" Width="537"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        xmlns:local="clr-namespace:AstroSimulator"
+>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical">
+            <GroupBox Name="CameraGroup" Padding="5" Header="Camera">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="3" VerticalAlignment="Center">Status</TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Margin="3" VerticalAlignment="Center" />
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Name="FilterWheelGroup" Padding="5" Header="Filter wheel">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="3" VerticalAlignment="Center">Status</TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Margin="3" VerticalAlignment="Center" Text="{Binding Path=FilterWheel.Status}" />
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Name="GuiderGroup" Padding="5" Header="Guider">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="3" VerticalAlignment="Center">Status</TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Margin="3" VerticalAlignment="Center" />
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Name="TelescopeGroup" Margin="3" Padding="5" Header="Telescope">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="3" VerticalAlignment="Center">Status</TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Margin="3" VerticalAlignment="Center" Text="{Binding Path=Telescope.Status}"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="3" VerticalAlignment="Center">Sideral time</TextBlock>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Margin="3" VerticalAlignment="Center" Text="{Binding Path=Telescope.LocalSiderealTime, Converter={StaticResource ResourceKey=HMSConverter}}"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Margin="3" VerticalAlignment="Center">Right ascension</TextBlock>
+                    <TextBlock Grid.Row="2" Grid.Column="1" Margin="3" VerticalAlignment="Center" Text="{Binding Path=Telescope.RightAscension, Converter={StaticResource ResourceKey=HMSConverter}}"/>
+                    <TextBlock Grid.Row="3" Grid.Column="0" Margin="3" VerticalAlignment="Center">Declination</TextBlock>
+                    <TextBlock Grid.Row="3" Grid.Column="1" Margin="3" VerticalAlignment="Center" Text="{Binding Path=Telescope.Declination, Converter={StaticResource ResourceKey=DMSConverter}}"/>
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Margin="3" VerticalAlignment="Center">RA error (arcsec)</TextBlock>
+                    <TextBlock Grid.Row="4" Grid.Column="1" Margin="3" VerticalAlignment="Center" Text="{Binding Path=Telescope.RightAscensionError}"/>
+                    <TextBlock Grid.Row="5" Grid.Column="0" Margin="3" VerticalAlignment="Center">Dec error (arcsec)</TextBlock>
+                    <TextBlock Grid.Row="5" Grid.Column="1" Margin="3" VerticalAlignment="Center" Text="{Binding Path=Telescope.DeclinationError}"/>
+
+                    <TextBlock Grid.Row="6" Grid.Column="0" Margin="3" VerticalAlignment="Center">Azimuth</TextBlock>
+                    <TextBlock Grid.Row="6" Grid.Column="1" Margin="3" VerticalAlignment="Center" Text="{Binding Path=Telescope.Azimuth, Converter={StaticResource ResourceKey=DMSConverter}}"/>
+                    <TextBlock Grid.Row="7" Grid.Column="0" Margin="3" VerticalAlignment="Center">Altitude</TextBlock>
+                    <TextBlock Grid.Row="7" Grid.Column="1" Margin="3" VerticalAlignment="Center" Text="{Binding Path=Telescope.Altitude, Converter={StaticResource ResourceKey=DMSConverter}}"/>
+
+                    <TextBlock Grid.Row="8" Grid.Column="0" Margin="3" VerticalAlignment="Center">Side of pier</TextBlock>
+                    <TextBlock Grid.Row="8" Grid.Column="1" Margin="3" VerticalAlignment="Center" Text="{Binding Path=Telescope.PierSide}"/>
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Name="FocuserGroup" Padding="5" Header="Focuser">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="3" VerticalAlignment="Center">Status</TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Margin="3" VerticalAlignment="Center" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="3" VerticalAlignment="Center">Position</TextBlock>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Margin="3" VerticalAlignment="Center" Text="{Binding Path=Focuser.Position}"/>
+                </Grid>
+            </GroupBox>
+
+            <Button Name="Setup" HorizontalAlignment="Right" Width="80" Margin="3" Content="Setup" />
+            
+        </StackPanel>
+
+        <GroupBox Grid.Row="0" Grid.Column="1" Header="Message Log" Margin="3" Padding="5">
+            <ScrollViewer>
+                <TextBlock Name="MessageLog" />
+            </ScrollViewer>
+        </GroupBox>
+    </Grid>
+
+</Window>
